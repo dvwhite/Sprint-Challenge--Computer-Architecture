@@ -47,7 +47,15 @@ class CPU:
             'POP': 0b01000110,
             'PUSH': 0b01000101,
             'RET': 0b00010001,
-            'CALL': 0b01010000
+            'CALL': 0b01010000,
+            'CMP': 0b10100111,
+            'JMP': 0b01010100,
+            'JEQ': 0b01010101,
+            'JNE': 0b01010110,
+            'JGE': 0b01011010,
+            'JGT': 0b01010111,
+            'JLE': 0b01011001,
+            'JLT': 0b01011000
         }
 
         self.bin_to_op = {
@@ -61,7 +69,15 @@ class CPU:
             0b01000110: 'POP',
             0b01000101: 'PUSH',
             0b00010001: 'RET',
-            0b01010000: 'CALL'
+            0b01010000: 'CALL',
+            0b10100111: 'CMP'
+            0b01010100: 'JMP',
+            0b01010101: 'JEQ',
+            0b01010110: 'JNE',
+            0b01011010: 'JGE',
+            0b01010111: 'JGT',
+            0b01011001: 'JLE',
+            0b01011000: 'JLT',
         }
 
     def load(self, program):
@@ -158,6 +174,13 @@ class BranchTable:
         self.table['PUSH'] = self.handle_PUSH
         self.table['CALL'] = self.handle_CALL
         self.table['RET'] = self.handle_RET
+        self.table['JMP'] = self.handle_JMP
+        self.table['JEQ'] = self.handle_JEQ
+        self.table['JNE'] = self.handle_JNE
+        self.table['JGT'] = self.handle_JGT
+        self.table['JGE'] = self.handle_JGE
+        self.table['JLT'] = self.handle_JLT
+        self.table['JLE'] = self.handle_JLE
         self.bin_to_op = {
             0b10000010: 'LDI',
             0b00000001: 'HLT',
@@ -169,7 +192,15 @@ class BranchTable:
             0b01000110: 'POP',
             0b01000101: 'PUSH',
             0b00010001: 'RET',
-            0b01010000: 'CALL'
+            0b01010000: 'CALL',
+            0b10100111: 'CMP',
+            0b01010100: 'JMP',
+            0b01010101: 'JEQ',
+            0b01010110: 'JNE',
+            0b01011010: 'JGE',
+            0b01010111: 'JGT',
+            0b01011001: 'JLE',
+            0b01011000: 'JLT'
         }
 
     def update(self, ram, reg, pc):
