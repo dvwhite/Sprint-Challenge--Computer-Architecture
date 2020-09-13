@@ -257,3 +257,24 @@ class BranchTable:
         memory_value = self.ram[self.reg[SP]]
         self.pc = memory_value
         self.reg[SP] -= 1
+
+    def handle_JMP(self, ir):
+        pass
+
+    def handle_JEQ(self, ir):
+        pass
+
+    def handle_JNE(self, ir):
+        pass
+
+    def handle_JGT(self, ir):
+        pass
+
+    def handle_JGE(self, ir):
+        pass
+
+    def handle_JLT(self, ir):
+        pass
+
+    def handle_JLE(self, ir):
+        pass
