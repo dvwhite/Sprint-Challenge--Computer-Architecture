@@ -30,7 +30,7 @@ class CPU:
         # Bits: 00000LGE
         # The register is made up of 8 bits.
         # If a particular bit is set, that flag is "true".
-        self.fl = 0
+        self.fl = [0] * 8
 
         # The stack pointer
         # Initializes to F4
@@ -73,7 +73,7 @@ class CPU:
             0b01000101: 'PUSH',
             0b00010001: 'RET',
             0b01010000: 'CALL',
-            0b10100111: 'CMP'
+            0b10100111: 'CMP',
             0b01010100: 'JMP',
             0b01010101: 'JEQ',
             0b01010110: 'JNE',
@@ -118,11 +118,11 @@ class CPU:
             self.reg[reg_a] /= self.reg[reg_b]
         elif op == "CMP":
             if self.reg[reg_a] == self.reg[reg_b]:
-                self.reg[E] = 0b00000001
+                self.fl[E] = 0b00000001
             elif self.reg[reg_a] < self.reg[reg_b]:
-                self.reg[L] = 0b00000001
+                self.fl[L] = 0b00000001
             elif self.reg[reg_a] > self.reg[reg_b]:
-                self.reg[G] = 0b00000001
+                self.fl[G] = 0b00000001
         else:
             raise Exception("Unsupported ALU operation")
 
@@ -148,7 +148,7 @@ class CPU:
 
     def run(self):
         """Run the CPU."""
-        ARITHMETIC_OPS = ['ADD', 'SUB', 'MUL', 'DIV']
+        ARITHMETIC_OPS = ['ADD', 'SUB', 'MUL', 'DIV', 'CMP']
         running = True
         branch = BranchTable(ram=None, reg=None, fl=None, pc=0)
 
@@ -213,9 +213,10 @@ class BranchTable:
             0b01011000: 'JLT'
         }
 
-    def update(self, ram, reg, pc):
+    def update(self, ram, reg, fl, pc):
         self.ram = ram
         self.reg = reg
+        self.fl = fl
         self.pc = pc
 
     def handle_LDI(self, ir):
