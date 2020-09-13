@@ -263,10 +263,18 @@ class BranchTable:
         self.pc = self.reg[reg]
 
     def handle_JEQ(self, ir):
-        pass
+        reg = self.ram[self.pc + 1]
+        if self.fl[E]:
+            self.pc = self.reg[reg]
+        else:
+            self.pc += 2
 
     def handle_JNE(self, ir):
-        pass
+        reg = self.ram[self.pc + 1]
+        if not self.fl[E]:
+            self.pc = self.reg[reg]
+        else:
+            self.pc += 2
 
     def handle_JGT(self, ir):
         pass
