@@ -124,7 +124,7 @@ class CPU:
         """Run the CPU."""
         ARITHMETIC_OPS = ['ADD', 'SUB', 'MUL', 'DIV']
         running = True
-        branch = BranchTable(ram=None, reg=None, pc=0)
+        branch = BranchTable(ram=None, reg=None, fl=None, pc=0)
 
         while running:
             ir = self.ram[self.pc]
@@ -140,15 +140,16 @@ class CPU:
                 self.alu(self.bin_to_op[ir], reg1, reg2)
                 self.pc += 3
             else:
-                branch.update(self.ram, self.reg, self.pc)
+                branch.update(self.ram, self.reg, self.fl, self.pc)
                 branch.table[op](ir)
                 self.pc = branch.pc
 
 
 class BranchTable:
-    def __init__(self, ram=None, reg=None, pc=0):
+    def __init__(self, ram=None, reg=None, fl=None, pc=0):
         self.ram = ram
         self.reg = reg
+        self.fl = fl
         self.pc = pc
         self.table = {}
         self.table['LDI'] = self.handle_LDI
