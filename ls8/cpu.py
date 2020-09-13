@@ -277,13 +277,29 @@ class BranchTable:
             self.pc += 2
 
     def handle_JGT(self, ir):
-        pass
+        reg = self.ram[self.pc + 1]
+        if self.fl[G]:
+            self.pc = self.reg[reg]
+        else:
+            self.pc += 2
 
     def handle_JGE(self, ir):
-        pass
+        reg = self.ram[self.pc + 1]
+        if self.fl[G] or self.fl[E]:
+            self.pc = self.reg[reg]
+        else:
+            self.pc += 2
 
     def handle_JLT(self, ir):
-        pass
+        reg = self.ram[self.pc + 1]
+        if self.fl[L]:
+            self.pc = self.reg[reg]
+        else:
+            self.pc += 2
 
     def handle_JLE(self, ir):
-        pass
+        reg = self.ram[self.pc + 1]
+        if self.fl[L] or self.fl[E]:
+            self.pc = self.reg[reg]
+        else:
+            self.pc += 2
