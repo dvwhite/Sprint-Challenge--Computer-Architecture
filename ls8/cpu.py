@@ -4,6 +4,9 @@ import sys
 
 # Constants
 SP = 7
+L = 5
+G = 6
+E = 7
 
 
 class CPU:
@@ -113,6 +116,13 @@ class CPU:
             self.reg[reg_a] *= self.reg[reg_b]
         elif op == "DIV":
             self.reg[reg_a] /= self.reg[reg_b]
+        elif op == "CMP":
+            if self.reg[reg_a] == self.reg[reg_b]:
+                self.reg[E] = 0b00000001
+            elif self.reg[reg_a] < self.reg[reg_b]:
+                self.reg[L] = 0b00000001
+            elif self.reg[reg_a] > self.reg[reg_b]:
+                self.reg[G] = 0b00000001
         else:
             raise Exception("Unsupported ALU operation")
 
