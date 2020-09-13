@@ -259,7 +259,8 @@ class BranchTable:
         self.reg[SP] -= 1
 
     def handle_JMP(self, ir):
-        pass
+        reg = self.ram[self.pc + 1]
+        self.pc = self.reg[reg]
 
     def handle_JEQ(self, ir):
         pass
