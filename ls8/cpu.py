@@ -58,7 +58,14 @@ class CPU:
             'JGE': 0b01011010,
             'JGT': 0b01010111,
             'JLE': 0b01011001,
-            'JLT': 0b01011000
+            'JLT': 0b01011000,
+            'AND': 0b10100000,
+            'OR': 0b10101010,
+            'XOR': 0b10101011,
+            'NOT': 0b01101001,
+            'SHL': 0b10101100,
+            'SHR': 0b10101101,
+            'MOD': 0b10100100
         }
 
         self.bin_to_op = {
@@ -81,6 +88,13 @@ class CPU:
             0b01010111: 'JGT',
             0b01011001: 'JLE',
             0b01011000: 'JLT',
+            0b10100000: 'AND',
+            0b10101010: 'OR',
+            0b10101011: 'XOR',
+            0b01101001: 'NOT',
+            0b10101100: 'SHL',
+            0b10101101: 'SHR',
+            0b10100100: 'MOD'
         }
 
     def load(self, program):
@@ -166,7 +180,7 @@ class CPU:
 
     def run(self):
         """Run the CPU."""
-        ARITHMETIC_OPS = ['ADD', 'SUB', 'MUL', 'DIV', 'CMP'
+        ARITHMETIC_OPS = ['ADD', 'SUB', 'MUL', 'DIV', 'CMP',
                           'AND', 'OR', 'XOR', 'SHL', 'SHR', 'MOD']
         running = True
         branch = BranchTable(ram=None, reg=None, fl=None, pc=0)
