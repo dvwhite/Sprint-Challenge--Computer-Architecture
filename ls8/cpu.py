@@ -107,24 +107,31 @@ class CPU:
 
     def alu(self, op, reg_a, reg_b):
         """ALU operations."""
-
-        if op == "ADD":
+        if op == 'ADD':
             self.reg[reg_a] += self.reg[reg_b]
-        elif op == "SUB":
+        elif op == 'SUB':
             self.reg[reg_a] -= self.reg[reg_b]
-        elif op == "MUL":
+        elif op == 'MUL':
             self.reg[reg_a] *= self.reg[reg_b]
-        elif op == "DIV":
+        elif op == 'DIV':
             self.reg[reg_a] /= self.reg[reg_b]
-        elif op == "CMP":
+        elif op == 'CMP':
             if self.reg[reg_a] == self.reg[reg_b]:
                 self.fl[E] = 0b00000001
+
             elif self.reg[reg_a] < self.reg[reg_b]:
                 self.fl[L] = 0b00000001
+
             elif self.reg[reg_a] > self.reg[reg_b]:
                 self.fl[G] = 0b00000001
+        elif op == 'AND':
+            self.reg[reg_a] = self.reg[reg_a] & self.reg[reg_b]
+        elif op == 'OR':
+            self.reg[reg_a] = self.reg[reg_a] | self.reg[reg_b]
+        elif op == 'XOR':
+            self.reg[reg_a] = self.reg[reg_a] ^ self.reg[reg_b]
         else:
-            raise Exception("Unsupported ALU operation")
+            raise Exception('Unsupported ALU operation')
 
     def trace(self):
         """
@@ -148,7 +155,8 @@ class CPU:
 
     def run(self):
         """Run the CPU."""
-        ARITHMETIC_OPS = ['ADD', 'SUB', 'MUL', 'DIV', 'CMP']
+        ARITHMETIC_OPS = ['ADD', 'SUB', 'MUL', 'DIV', 'CMP'
+                          'AND', 'OR', 'XOR']
         running = True
         branch = BranchTable(ram=None, reg=None, fl=None, pc=0)
 
