@@ -105,7 +105,7 @@ class CPU:
         """Returns the value stored in the memory address"""
         self.ram[mar] = val
 
-    def alu(self, op, reg_a, reg_b):
+    def alu(self, op, reg_a=None, reg_b=None):
         """ALU operations."""
         if op == 'ADD':
             self.reg[reg_a] += self.reg[reg_b]
@@ -130,6 +130,17 @@ class CPU:
             self.reg[reg_a] = self.reg[reg_a] | self.reg[reg_b]
         elif op == 'XOR':
             self.reg[reg_a] = self.reg[reg_a] ^ self.reg[reg_b]
+        elif op == 'NOT':
+            self.reg[reg_a] = ~self.reg[reg_a]
+        elif op == 'SHL':
+            self.reg[reg_a] = self.reg[reg_a] << self.reg[reg_b]
+        elif op == 'SHR':
+            self.reg[reg_a] = self.reg[reg_a] >> self.reg[reg_b]
+        elif op == 'MOD':
+            if self.reg[reg_b] == 0:
+                raise Exception('Unsupported divisor. Cannot divide by zero')
+            else:
+                self.reg[reg_a] = self.reg[reg_a] % self.reg[reg_b]
         else:
             raise Exception('Unsupported ALU operation')
 
@@ -156,7 +167,7 @@ class CPU:
     def run(self):
         """Run the CPU."""
         ARITHMETIC_OPS = ['ADD', 'SUB', 'MUL', 'DIV', 'CMP'
-                          'AND', 'OR', 'XOR']
+                          'AND', 'OR', 'XOR', 'SHL', 'SHR', 'MOD']
         running = True
         branch = BranchTable(ram=None, reg=None, fl=None, pc=0)
 
@@ -167,6 +178,10 @@ class CPU:
             # Halt
             if ir == self.op_to_bin['HLT']:
                 running = False
+            # Bitwise-NOT
+            elif ir == self.op_to_bin['NOT']:
+                reg = self.ram[self.pc + 1]
+                self.alu(self.bin_to_op[ir], reg)
             # Arithmetic operations
             elif self.bin_to_op[ir] in ARITHMETIC_OPS:
                 reg1 = self.ram[self.pc + 1]
